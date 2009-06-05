@@ -1,5 +1,11 @@
 ## Interface: 30100
 ## Title: EP |cffDAFF8A[No Arena]|r
-## Author: EvilPaul
 ## Notes: Automatically decline arena invites
+## Author: EvilPaul
+## Version: 1.0
+## DefaultState: enabled
+## X-website: http://github.com/Evilpaul
+## X-Localizations: enUS
+## X-Category: Battlegrounds/PvP
+
 EP_NoArena.lua
