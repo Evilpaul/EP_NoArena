@@ -8,7 +8,7 @@ function EPNoArena:MessageOutput(inputMessage)
 	ChatFrame1:AddMessage("|cffDAFF8A[No Arena]|r " .. inputMessage)
 end
 
-function EPNoArena:ARENA_TEAM_INVITE_REQUEST(self, event, ...)
+function EPNoArena:DeclineArenaInvite()
 
 	-- automatically decline
 	DeclineArenaTeam()
@@ -48,7 +48,7 @@ function EPNoArena:DeclineArenaPetition(arenaName, originator, isOriginator)
 	end
 end
 
-function EPNoArena:PETITION_SHOW(self, event, ...)
+function EPNoArena:FilterPetition()
 	local petitionType, title, _, _, originator, isOriginator, _ = GetPetitionInfo()
 
 	-- we do not care about guild, or other, petitions
@@ -58,7 +58,11 @@ function EPNoArena:PETITION_SHOW(self, event, ...)
 end
 
 EPNoArena:SetScript("OnEvent", function(self, event, ...)
-	self[event](self, event, ...)
+	if (event == "ARENA_TEAM_INVITE_REQUEST") then
+		self:DeclineGuildInvite()
+	elseif (event == "PETITION_SHOW") then
+		self:FilterPetition()
+	end
 end)
 
 -- filter out our responses
