@@ -2,7 +2,7 @@
 ## Title: EP |cffDAFF8A[No Arena]|r
 ## Notes: Automatically decline arena invites
 ## Author: EvilPaul
-## Version: 1.1
+## Version: 1.2
 ## DefaultState: enabled
 ## X-website: http://github.com/Evilpaul
 ## X-Localizations: enUS
