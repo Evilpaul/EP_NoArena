@@ -8,7 +8,7 @@ function EPNoArena:MessageOutput(inputMessage)
 	ChatFrame1:AddMessage("|cffDAFF8A[No Arena]|r " .. inputMessage)
 end
 
-function EPNoArena:DeclineArenaInvite()
+function EPNoArena:ARENA_TEAM_INVITE_REQUEST(event, originator, arenaTeamName)
 
 	-- automatically decline
 	DeclineArenaTeam()
@@ -25,47 +25,39 @@ function EPNoArena:DeclineArenaInvite()
 	end
 
 	-- report to user
-	self:MessageOutput(string.format("Declined invitation from %s to join %s", arg1, arg2))
+	self:MessageOutput(string.format("Declined invitation from %s to join %s", originator, arenaTeamName))
 
 	-- tell the idiot
-	SendChatMessage(arenaDeclineMessage, "WHISPER", nil, arg1)
+	SendChatMessage(arenaDeclineMessage, "WHISPER", nil, originator)
 end
 
-function EPNoArena:DeclineArenaPetition(arenaName, originator, isOriginator)
-
-	-- automatically decline the petition
-	ClosePetition()
-
-	if isOriginator == true then
-		-- report to user
-		self:MessageOutput(string.format("Declined arena petition from %s to join %s", originator, arenaName))
-
-		-- tell the idiot
-		SendChatMessage(arenaDeclineMessage, "WHISPER", nil, arg1)
-	else
-		-- report to user
-		self:MessageOutput(string.format("Declined arena petition to join %s", arenaName))
-	end
-end
-
-function EPNoArena:FilterPetition()
+function EPNoArena:PETITION_SHOW(event)
 	local petitionType, title, _, _, originator, isOriginator, _ = GetPetitionInfo()
 
 	-- we do not care about guild, or other, petitions
 	if petitionType == "arena" then
-		self:DeclineArenaPetition(title, originator, isOriginator)
+
+		-- automatically decline the petition
+		ClosePetition()
+
+		if isOriginator == true then
+			-- report to user
+			self:MessageOutput(string.format("Declined arena petition from %s to join %s", originator, title))
+
+			-- tell the idiot
+			SendChatMessage(arenaDeclineMessage, "WHISPER", nil, originator)
+		else
+			-- report to user
+			self:MessageOutput(string.format("Declined arena petition to join %s", title))
+		end
 	end
 end
 
 EPNoArena:SetScript("OnEvent", function(self, event, ...)
-	if (event == "ARENA_TEAM_INVITE_REQUEST") then
-		self:DeclineGuildInvite()
-	elseif (event == "PETITION_SHOW") then
-		self:FilterPetition()
-	end
+	self[event](self, event, ...)
 end)
 
 -- filter out our responses
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", function(_, _, msg, player)
-	if msg == arenaDeclineMessage then return true; end; -- filter out the reply whisper
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", function(_, _, msg, _)
+	if msg == arenaDeclineMessage then return true end
 end)
