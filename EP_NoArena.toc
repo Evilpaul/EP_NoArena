@@ -1,4 +1,4 @@
-## Interface: 30100
+## Interface: 30200
 ## Title: EP |cffDAFF8A[No Arena]|r
 ## Notes: Automatically decline arena invites
 ## Author: EvilPaul
