@@ -7,17 +7,17 @@ EPNoArena:RegisterEvent('PETITION_SHOW')
 local arenaDeclineMessage = 'This is an automated message, all arena invitations will be declined'
 
 function EPNoArena:MessageOutput(inputMessage)
-	ChatFrame1:AddMessage(format('|cffDAFF8A[No Arena]|r %s', inputMessage))
+	DEFAULT_CHAT_FRAME:AddMessage(format('|cffDAFF8A[No Arena]|r %s', inputMessage))
 end
 
 function EPNoArena:ARENA_TEAM_INVITE_REQUEST(event, originator, arenaTeamName)
-
 	-- automatically decline
 	DeclineArenaTeam()
 
 	-- The popup is shown, make sure it goes away
+	local popup
 	for i = 1, STATICPOPUP_NUMDIALOGS do
-		local popup = _G['StaticPopup' .. i]
+		popup = _G['StaticPopup' .. i]
 
 		if popup and
 		   popup:IsVisible() and
