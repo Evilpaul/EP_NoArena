@@ -3,5 +3,7 @@
 ## Notes: Automatically decline arena invites
 ## Author: EvilPaul
 ## Version: 1.2
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
 
 EP_NoArena.lua
